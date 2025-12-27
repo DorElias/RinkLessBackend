@@ -1,0 +1,13 @@
+# RinkLess Whitelist
+# Domain patterns for trusted URLs
+# 
+# Pattern format:
+#   google.com      - matches google.com and all subdomains (*.google.com)
+#   *.google.com    - matches only subdomains, not google.com itself
+#
+# Add your trusted domains below:
+
+google.com
+github.com
+apple.com
+microsoft.com

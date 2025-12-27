@@ -1,0 +1,12 @@
+# RinkLess Blacklist
+# Domain patterns for unsafe/malicious URLs
+#
+# Pattern format:
+#   malware.com     - matches malware.com and all subdomains (*.malware.com)
+#   *.malware.com   - matches only subdomains, not malware.com itself
+#
+# Add known malicious domains below:
+
+# Example entries (replace with actual malicious domains)
+malware-example.com
+phishing-example.net
