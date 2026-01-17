@@ -1,5 +1,7 @@
+import asyncio
+
 from fastapi import FastAPI
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, Field
 from urllib.parse import urlparse
 from pathlib import Path
 
@@ -52,6 +54,7 @@ BLACKLIST = load_patterns("blacklist.txt")
 
 class LinkCheckRequest(BaseModel):
     url: HttpUrl
+    delay: float | None = Field(default=None, description="Optional delay in seconds (for FE testing)")
 
 
 class LinkCheckResponse(BaseModel):
@@ -60,14 +63,20 @@ class LinkCheckResponse(BaseModel):
 
 
 @app.post("/check-link")
-def check_link(request: LinkCheckRequest) -> LinkCheckResponse:
+async def check_link(request: LinkCheckRequest) -> LinkCheckResponse:
     """Check a URL against whitelist and blacklist patterns.
     
     Returns:
     - 'safe' if URL matches a whitelist pattern
     - 'unsafe' if URL matches a blacklist pattern
     - 'normal' if URL matches neither
+    
+    Optional: pass 'delay' (seconds) to simulate network latency for FE testing.
     """
+    # Optional delay for frontend testing
+    if request.delay and request.delay > 0:
+        await asyncio.sleep(request.delay)
+
     url = str(request.url)
 
     if any(domain_matches(url, p) for p in WHITELIST):
